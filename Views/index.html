@@ -43,28 +43,27 @@
         
         
     </div> 
+    <div class="dropdown">
+       
+    </div>  
      <!-- Request URL card-->
     <div class="card mb-4 big" id="url-card" >
         <div class="card-header">
             <div class="d-flex align-items-center">
                 <h5 class="mr-auto p-8">Request URL</h5>
                 <div class="btn-group" role="group">
-                    <div class="dropdown">
+                    <div class="dropleft">
                         <button class="btn btn-primary dropdown" type="button"  data-toggle="dropdown">
                             <i class="fa fa-cog" aria-hidden="true"></i>
                         </button>
                         <div class="dropdown-menu"  aria-labelledby="dropdownMenuButton">
-                          <a class="dropdown-item" type="button"onclick="modalSFS()">Force sale</a>
-                          <a class="dropdown-item" type="button" onclick="modalSFS()">sale</a>
-                          <a class="dropdown-item" type="button" onclick="modalR()">refund</a>
-                          <a class="dropdown-item" type="button" onclick="modalVoid()">Void</a>
-                          <a class="dropdown-item" type="button" onclick="modalPre()">pre-auth</a>
-                          <a class="dropdown-item" type="button" onclick="modalPre()">pre-auth Completion</a>
+                          <a class="dropdown-item" type="button"onclick="modalTransaction()">Transaction Endpoint</a>
+                          <a class="dropdown-item" type="button" onclick="modalDevice()">Device Endpoint</a>
                         </div>
-                      </div>    
+                    </div>    
                 </div>
               </div>
-        </div>
+        </div>  
         <div class="container bootstrap snippets bootdey">
             <div class="row">
                 <div class="col-lg-12">
@@ -86,7 +85,7 @@
         </div>
     </div>
      
-    <!--Modal for salee !-->
+    <!--Modal  cheque selekton!-->
     <div class="modal" id="Modal-sale" style="border-radius:1rem ;">
         <div class="modal-dialog">
           <div class="modal-content">
@@ -110,6 +109,65 @@
           </div>
         </div>
     </div>
+        <!--Modal  !-->
+        <div class="modal" id="Modal-settlement-token" style="border-radius:1rem ;">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Clear Bash!</h5>
+                  <div class="btn-groupe">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" aria-label="Close" onclick="closeSettlementToken()"><i class="fa fa-times" aria-hidden="true"></i></button>
+                  </div>
+                </div>
+                <div class="modal-body" id="modal-body">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label for="print-recipt-set">Print Receipt</label>
+                                <select  id="print-recipt-set" class="form-control" aria-label="Default select example" >
+                                    <option value="true">true</option>
+                                    <option value="false" selected>false</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+    
+                </div>
+                <div class="modal-footer" id="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="closeSettlementToken()">Close</button>
+                  <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="sendSetTok()">Send</button>
+                </div>
+              </div>
+            </div>
+        </div>
+        <!--Modal get_preformatted_receipt !-->
+        <div class="modal" id="Modal-preformatted" style="border-radius:1rem ;">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Get Preformatted Receipt</h5>
+                  <div class="btn-groupe">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" aria-label="Close" onclick="closePre()"><i class="fa fa-times" aria-hidden="true"></i></button>
+                  </div>
+                </div>
+                <div class="modal-body" id="modal-body">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-12">
+                                    <label for="name-input">Nom:</label>
+                                    <input type="text" id="name-input"   class="form-control" placeholder="nom">
+                            </div>
+                        </div>
+                    </div>
+    
+                </div>
+                <div class="modal-footer" id="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="closePre()">Close</button>
+                  <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="sendPre()">Send</button>
+                </div>
+              </div>
+            </div>
+        </div>
    
   
     <!-- Request message-->
@@ -117,11 +175,10 @@
         <div class="card-header">
             <div class="d-flex align-items-center">
                 <h5 class="mr-auto p-8">Request msg</h5>
-                <div class="btn-group" role="group">
-                    
-                    <div class="dropdown">
+                <div class="btn-group" role="group" >
+                    <div class="dropleft">
                         <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                          Type Request
+                            Transactions/Reports
                         </button>
                         <div class="dropdown-menu"  aria-labelledby="dropdownMenuButton" >
                           <a class="dropdown-item" type="button" value="force-sale" onclick="forceSale()">Force sale</a>
@@ -130,13 +187,36 @@
                           <a class="dropdown-item" type="button"  onclick="Void()">Void</a>
                           <a class="dropdown-item" type="button"  onclick="preauth()">pre-auth</a>
                           <a class="dropdown-item" type="button" onclick="preauth_completion()">pre-auth Completion</a>
-                        </div>
-                      </div>    
+                          <a class="dropdown-item" type="button" onclick="tip_adjustment()" >tip_adjustment</a>
+                          <a class="dropdown-item" type="button" onclick="transaction_adjust()">transaction_adjust</a>
+                          <a class="dropdown-item" type="button" onclick="balance_inquiry()">Balance Inquiry</a>
+                          <button id="btn-settelment"  class="dropdown-item" onclick="modalSettlement()" >settlement</button>
+                          <button id="btn-token"  class="dropdown-item" onclick="modalToken()" >token_request</button>
+                          <button id="btn-pre"  class="dropdown-item" onclick="modalGetPR()" >get_preformatted_receipt</button>
+                          <button id="btn-recall"  class="dropdown-item" onclick="recallLast()" >recall_last</button>
+                          <button id="btn-reset"  class="dropdown-item" onclick="reset()" >Reset Request</button>
+                          <button id="btn-ter"  class="dropdown-item" onclick="terminal_info()" >Terminal Info Report</button>
+                          </div>
+                    </div> 
                 </div>
               </div>
-
         </div>
-        
+
+        <div class="dropdown " style="margin: 2px;">
+ 
+                <button class="btn btn-light dropdown-toggle buttonevent" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Suspended Events
+                </button>
+            
+            <div class="dropdown-menu"  aria-labelledby="dropdownMenuButton" >
+              <a class="dropdown-item" type="button" value="force-sale" onclick="alert('Not Yet Implemented')">enter_last_4_digits</a>
+              <a class="dropdown-item" type="button" onclick="alert('Not Yet Implemented')">update_purchase_card_data</a>
+              <a class="dropdown-item" type="button" onclick="alert('Not Yet Implemented')">update_transaction_qual_data</a>
+              <a class="dropdown-item" type="button" onclick="alert('Not Yet Implemented')">merchant_decision</a>
+              <a class="dropdown-item" type="button"onclick="alert('Not Yet Implemented')">enter_moto_data</a>
+            
+            </div>
+          </div> 
         <div class="form-check w-100 collapsed" data-bs-toggle="collapse" data-bs-target="#collapseCC" aria-expanded="false">
         <div class="container bootstrap snippets bootdey">
             <div class="row">
@@ -149,19 +229,19 @@
                                             <div class="col-md-12">
                                                 <div id="accordion" class="checkout">
                                                     <!--Basic!-->
-                                                    <div class="panel checkout-step">
+                                                    <div class="panel checkout-step in">
                                                         <div> <span class="checkout-step-number">1</span>
                                                             <h4 class="checkout-step-title"> <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" > Basic</a></h4>
                                                         </div>
-                                                        <div id="collapseOne" class="panel-collapse collapse">
+                                                        <div id="collapseOne" class="accordion-collapse collapse show">
                                                             <div class="checkout-step-body">
-                                                                <div class="checout-address-step">
+                                                                <div class="checout-address-step" >
                                                                     <div class="row">
                                                                         <!--Our Form will change here-->
-                                                                        <form class="" id="change-form">
+                                                                        <div class="" id="change-form">
                                                                            
                                                                             
-                                                                        </form>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                                 <a class="collapsed btn btn-default" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree"> Next </a>
@@ -187,27 +267,40 @@
                                                     <!--payment option-->
                                                     <div class="panel checkout-step">
                                                         <div role="tab" id="headingFour"> <span class="checkout-step-number">3</span>
-                                                            <h4 class="checkout-step-title"> <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFour"  > Recipt/Events </a> </h4>
+                                                            <h4 class="checkout-step-title"> <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFour"  > Receipt/Events </a> </h4>
                                                         </div>
                                                         <div id="collapseFour" class="panel-collapse collapse">
                                                             <div class="checkout-step-body">
                                                                 <div class="form-group">
                                                                     <div class="row">
                                                                         <div class="col-md-4">
+                                                                            <label for="print-recipt-Input">Print Receipt</label>
                                                                             <select  id="print-recipt-Input" class="form-control" aria-label="Default select example" >
-                                                                                <option selected>Print Recipt</option>
                                                                                 <option value="true">true</option>
-                                                                                <option value="false">false</option>
+                                                                                <option value="false" selected>false</option>
                                                                             </select>
                                                                         </div>
-                                                                        <div class="col-md-4">
-                                                                            <select  id="enable-Suspend-Events-Input" class="form-control" aria-label="Default select example" >
-                                                                                <option selected>Enable Suspend Events</option>
+                                                                        <div class="col-md-4" id="events">
+                                                                            <label for="enable-Suspend-Events-Input">Enable Suspend Events</label>
+                                                                            <select  id="enable-Suspend-Events-Input" class="form-control" aria-label="Default select example" onchange="showHostApp()" >
                                                                                 <option>true</option>
-                                                                                <option>false</option>
+                                                                                <option selected>false</option>
                                                                             </select>
                                                                         </div>
                                                     
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col-md-4">
+                                                                            <label for="enable-Suspend-Events-Input">Print Preformatted Receipt</label>
+                                                                            <select  id="preformatted_receipt_input" class="form-control" aria-label="Default select example" >
+                                                                                <option>true</option>
+                                                                                <option selected>false</option>
+                                                                            </select>
+                                                                        </div>
+                                                                        <div class="col-md-4" id="host">
+                                                                            <label for="host_approval_code">Host Approval Code</label>
+                                                                            <input type="text" id="host_approval_code_input" class="form-control" placeholder="host_approval_code">
+                                                                    </div>   
                                                                     </div>
                                                                     
                                                                     
@@ -216,24 +309,18 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <!--OPTION 1 TIPE-->
-                                                    <div class="panel checkout-step">
-                                                        <div role="tab" id="headingTwo"> <span class="checkout-step-number">4</span>
-                                                            <h4 class="checkout-step-title"> <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" > Tip Option </a> </h4>
+                                                     <!--payment option-->
+                                                     <div class="panel checkout-step">
+                                                        <div role="tab" id="headingFour"> <span class="checkout-step-number">4</span>
+                                                            <h4 class="checkout-step-title"> <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo"  > Financial OPTION </a> </h4>
                                                         </div>
                                                         <div id="collapseTwo" class="panel-collapse collapse">
-                                                            <div class="checkout-step-body">
-                                                                <div class="checout-address-step">
-                                                                    <div class="row">
-                                                                        <form id="change-form-tip">
-
-                                                                        </form>
-                                                                    </div>
-                                                                </div>
-                                                                
+                                                            <div class="checkout-step-body" id="change-form-tip">
+                                                               
                                                             </div>
                                                         </div>
                                                     </div>
+                                                    
                                                     
                                                     
                                                 </div>
@@ -242,7 +329,9 @@
                                     </div>
                                  <!-- add class disabled to inactive button -->
                                  <div class="request-button" style="margin-right: 10px; margin-top:10px;">
-                                    <button class="btn btn-primary  " id="btn-req-msg" type="button" onclick="send()" style="margin-bottom: 10px; justify-content: center;">Send</button>
+                                    <button class="btn btn-primary" id="btn-req-msg" type="button" onclick="send()" style="margin-bottom: 10px; justify-content: center;">Send</button>
+                                    
+
                                 </div>
                         </div>
                     </div>
