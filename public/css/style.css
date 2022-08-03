@@ -50,6 +50,11 @@
     border-radius: 100px;
     box-sizing: border-box;
 }
+.dropdown {
+    justify-content: center;
+    display: flex;
+    align-items: center;
+}
 /*/ make button cercle /*/
 .dropdown .btn{
     border-radius: 100px;
@@ -336,5 +341,6 @@ heckout-wrapper {
     padding-right: 10px;
     color: #43b02a;
 }
+
 
 
