@@ -3,8 +3,13 @@ const express =require('express');
 const app=express();
 
 //set port 
-app.listen(5000);
-//set index.html
+// PORT
+const PORT = process.env.PORT || 8081;
+
+// Listen on port 8081
+app.listen(PORT, () =>
+  console.log(`Application is listening on port ${PORT}!`)
+);//set index.html
 app.set('views','./Views');
 //set static file index+css
 app.use(express.static('public'));
