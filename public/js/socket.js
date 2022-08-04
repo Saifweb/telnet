@@ -297,8 +297,8 @@ initializeGetData();
         tokenExp=document.querySelector('#token-expire');
         paymentTypeInput=document.querySelector("#payment_type_input")
         //make complexité low 
-        arrayOfFunction=[stringdataSFSRin,stringdataSFSRin,stringdataSFSRin,stringdataPREAUTHinAD]
-        arrayOfString=['force_sale','sale','refund','preauth']
+        arrayOfFunction=[stringdataSFSRin,stringdataSFSRin,stringdataSFSRin,stringdataPREAUTHinAD,stringdataSFSRin]
+        arrayOfString=['force_sale','sale','refund','preauth','auth_only']
         stringdata=arrayOfFunction[arrayOfString.indexOf(dropdownMenuButton.innerHTML)]();
         return stringdata
     }
@@ -405,8 +405,8 @@ initializeGetData();
                     tokenExp=document.querySelector('#token-expire');
                     paymentTypeInput=document.querySelector("#payment_type_input")
                     //make complexité low 
-                    arrayOfFunction=[stringdataSFSRid,stringdataSFSRid,stringdataSFSRid,stringdataPREAUTHidAD]
-                    arrayOfString=['force_sale','sale','refund','preauth']
+                    arrayOfFunction=[stringdataSFSRid,stringdataSFSRid,stringdataSFSRid,stringdataPREAUTHidAD,stringdataSFSRid]
+                    arrayOfString=['force_sale','sale','refund','preauth','auth_only']
                     stringdata=arrayOfFunction[arrayOfString.indexOf(dropdownMenuButton.innerHTML)]();
     return stringdata
     }
@@ -510,10 +510,11 @@ initializeGetData();
                     tokenOption=document.querySelector('#option-token');
                     tokenValue=document.querySelector('#token-value');
                     tokenExp=document.querySelector('#token-expire');
-                    paymentTypeInput=document.querySelector("#payment_type_input")
+                    paymentTypeInput=document.querySelector("#payment_type_input");
+                    hostApprovalCode=document.querySelector('#host_approval_code_input')
                     //make complexité low 
-                    arrayOfFunction=[stringdataSFSR,stringdataSFSR,stringdataSFSR,stringdataVOID,stringdataPREAUTHad,stringdataPREAUTH,stringdataPREAUTHad,stringdataTIP,stringdataBALA]
-                    arrayOfString=['force_sale','sale','refund','Void','preauth_completion','preauth','transaction_adjust','tip_adjustment','balance_inquiry']
+                    arrayOfFunction=[stringdataSFSR,stringdataSFSR,stringdataSFSR,stringdataVOID,stringdataPREAUTHad,stringdataPREAUTH,stringdataPREAUTHad,stringdataTIP,stringdataBALA,stringdataSFSR]
+                    arrayOfString=['force_sale','sale','refund','Void','preauth_completion','preauth','transaction_adjust','tip_adjustment','balance_inquiry','auth_only']
                     stringdata=arrayOfFunction[arrayOfString.indexOf(dropdownMenuButton.innerHTML)]();
     return stringdata
     }
@@ -533,8 +534,8 @@ initializeGetData();
                             Objecttransaction_amount[value]=valueInput.value;
                             Objecttransaction_amount[decimal_shift]=decimal_shiftInput.value;
                             Objecttransaction_amount[currency]=currencyInput.value;
-                            
-                            if (dropdownMenuButton.innerHTML!='refund' && tipOption.value==1 ){
+                            liste=['refund','auth_only'];
+                            if (liste.indexOf(dropdownMenuButton.innerHTML)==-1 && tipOption.value==1 ){
                                     ObjectTip[value]=tipValue.value;
                                     ObjectTip[currency]=currencyInput.value;
                                     ObjectTip[decimal_shift]=decimal_shiftInput.value;
@@ -643,16 +644,31 @@ initializeGetData();
                             Objecttransaction_amount[decimal_shift]=decimal_shiftInput.value;
                             Objecttransaction_amount[currency]=currencyInput.value; 
                             amountObject[transaction_amount]=Objecttransaction_amount;
+                            liste=['']
                             //-----
                             if (dropdownMenuButton.innerHTML=='transaction_adjust' && tipOption.value==1 ){
                                 ObjectTip[value]=tipValue.value;
                                 ObjectTip[currency]=currencyInput.value;
                                 ObjectTip[decimal_shift]=decimal_shiftInput.value;
                                 amountObject[tip]=ObjectTip;
-                                getdata.push([valueInput.value,decimal_shiftInput.value,currencyInput.value,seeResponse.value,refnumInput.value,null,tipValue.value,null,null,null,null])
+                                if (liste.indexOf(hostApprovalCode.value)<0){
+                                    TheRessourceObject[host_approval_code]=hostApprovalCode.value;
+                                    getdata.push([valueInput.value,decimal_shiftInput.value,currencyInput.value,seeResponse.value,refnumInput.value,null,tipValue.value,null,null,null,null])
+                                    getdata[getdata.length-1].push(hostApprovalCode.value)
+                                }
+                                else{
+                                    getdata.push([valueInput.value,decimal_shiftInput.value,currencyInput.value,seeResponse.value,refnumInput.value,null,tipValue.value,null,null,null,null])
+                                }
                             }
                             else{
-                                getdata.push([valueInput.value,decimal_shiftInput.value,currencyInput.value,seeResponse.value,refnumInput.value,null,null,null,null,null,null])
+                                if (liste.indexOf(hostApprovalCode.value)<0){
+                                    TheRessourceObject[host_approval_code]=hostApprovalCode.value;
+                                    getdata.push([valueInput.value,decimal_shiftInput.value,currencyInput.value,seeResponse.value,refnumInput.value,null,null,null,null,null,null])
+                                    getdata[getdata.length-1].push(hostApprovalCode.value)
+                                }
+                                else{
+                                    getdata.push([valueInput.value,decimal_shiftInput.value,currencyInput.value,seeResponse.value,refnumInput.value,null,null,null,null,null,null])
+                                }
                             }
                             TheHeaderObject[endpoint]=`/NAR/v1/transaction`;
                             TheHeaderObject[flow_id]="577125";
@@ -669,6 +685,7 @@ initializeGetData();
                             return myFinalObj
                         }
                         function stringdataVOID(){
+                            hostApprovalCode=document.querySelector('#host_approval_code_input')
                             fixedata()
                             //TheRessourceObject=new Object
                             //stringdata=`{\"request\":{\"header\":{\"endpoint\":\"/NAR/v1/transaction\",\"flow_id\":\"277555\"},\"resource\":{\"txn_type\":\"void\",\"ref_num\":\"${refnumInput.value}\",\"print_receipt\":true}}}`
@@ -678,10 +695,18 @@ initializeGetData();
                             TheRessourceObject[print_receipt]=printReceiptInput.value=='true'
                             TheRessourceObject[preformatted_receipt]=preformatted_receipt_input.value=='true'
                             TheRessourceObject[ref_num]=refnumInput.value
+                            liste=['']
+                            if (liste.indexOf(hostApprovalCode.value)<0){
+                                TheRessourceObject[host_approval_code]=hostApprovalCode.value;
+                                getdata.push([null,null,null,seeResponse.value,refnumInput.value,null,null,null,null,null,null])
+                                getdata[getdata.length-1].push(hostApprovalCode.value)
+                            }
+                            else{
+                                getdata.push([null,null,null,seeResponse.value,refnumInput.value,null,null,null,null,null,null]) 
+                            }
                             myObject[header]=TheHeaderObject;
                             myObject[resource]=TheRessourceObject  
                             myFinalObj[request] = myObject;
-                            getdata.push([null,null,null,seeResponse.value,refnumInput.value,null,null,null,null,null,null])
                             localStorage.setItem('getdata', JSON.stringify(getdata));
                             return myFinalObj
                         }
@@ -698,9 +723,18 @@ initializeGetData();
                             amountObject[tip]=ObjectTip;
                             TheRessourceObject[amount]=amountObject
                             myObject[header]=TheHeaderObject;
+                            liste=['']
+                            if (liste.indexOf(hostApprovalCode.value)<0){
+                                TheRessourceObject[host_approval_code]=hostApprovalCode.value;
+                                getdata.push([null,decimal_shiftInput.value,currencyInput.value,seeResponse.value,refnumInput.value,null,tipValue.value,null,null])
+                                getdata[getdata.length-1].push(hostApprovalCode.value)
+                            }
+                            else
+                            {
+                                getdata.push([null,decimal_shiftInput.value,currencyInput.value,seeResponse.value,refnumInput.value,null,tipValue.value,null,null]) 
+                            }
                             myObject[resource]=TheRessourceObject  
                             myFinalObj[request] = myObject;
-                            getdata.push([null,decimal_shiftInput.value,currencyInput.value,seeResponse.value,refnumInput.value,null,tipValue.value,null,null])
                             localStorage.setItem('getdata', JSON.stringify(getdata));
                             return myFinalObj
                         }
@@ -899,6 +933,7 @@ initializeGetData();
    
 //---------------------------------------------------------------------------------------Change Form connection ! -----------------------------
         function balance_inquiry(){
+            events.style.display="block"
             enableSuspendEventsInput.value='false'
             dropdownMenuButton.innerHTML='balance_inquiry' 
             line=`    <!--  option -->
@@ -965,6 +1000,7 @@ initializeGetData();
 
         }
         function sale(){
+            events.style.display="block"
             enableSuspendEventsInput.value='false'
             dropdownMenuButton.innerHTML='sale'
             line=`    <!--  option -->
@@ -1074,6 +1110,7 @@ initializeGetData();
             TokenCol2.style.display="none";
         }
         function preauth_completion(){
+            events.style.display="block"
             enableSuspendEventsInput.value='false'
             dropdownMenuButton.innerHTML='preauth_completion'
             line=`   <!--  option -->
@@ -1126,9 +1163,18 @@ initializeGetData();
                                 <label for="refnum-input">refnum</label>
                                 <input type="text" id="refnum-input" name="value" class="form-control" placeholder="ref_num">
                             </div>
-                         
+
                 </div>
             </div>
+            <div class="form-group">
+            <div class="row">
+
+            <div class="col-md-4" id="host">
+            <label for="host_approval_code">Host Approval Code</label>
+            <input type="text" id="host_approval_code_input" class="form-control" placeholder="host_approval_code">
+        </div> 
+        </div>
+        </div>
             
         </div>
             `
@@ -1137,6 +1183,7 @@ initializeGetData();
 
         }
         function preauth(){
+            events.style.display="block"
             enableSuspendEventsInput.value='false'
             dropdownMenuButton.innerHTML='preauth'
             line=`   <!--  option -->
@@ -1239,6 +1286,7 @@ initializeGetData();
             TokenCol2.style.display="none";
         }
         function refund(){
+            events.style.display="block"
             enableSuspendEventsInput.value='false'
             dropdownMenuButton.innerHTML='refund'
             line=`    <!--  option -->
@@ -1328,9 +1376,98 @@ initializeGetData();
             TokenCol2=document.querySelector('#token-col2')
             TokenCol1.style.display="none";
             TokenCol2.style.display="none";
+        }
+        function auth(){
+            events.style.display="block"
+            enableSuspendEventsInput.value='false'
+            dropdownMenuButton.innerHTML='auth_only'
+            line=`    <!--  option -->
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-4">
+                    <label for="option-input">Option</label>
+                        <select name="CLERK OPTION" id="option-input" class="form-control" aria-label="Default select example" onchange="OurFormChanged()">
+                            <option>CLERK</option>
+                            <option>INVOICE</option>
+                            <option selected >None</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="value-input">Amount:Value</label>
+                        <input type="text" id="value-input" name="value" class="form-control" placeholder="Amount value">
+                    </div>
 
-
-
+                </div>
+                
+                
+            </div>
+            <!-- Decimal_shift! and Currency ! input-->
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-4">
+                    <label for="currency-input">Currency</label>
+                        <select name="currency" id="currency-input" class="form-control" aria-label="Default select example">
+                            <option value="124">CAN</option>
+                            <option value="840" selected >US</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                            <label for="decimal_shift-input">Amount:decimal_shift</label>
+                            <input type="text" id="decimal_shift-input" name="decimal_shift" value=2 class="form-control" placeholder="Amount:decimal_shift">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <div class="row">
+                        <!-- See Response input-->   
+                            <div class="col-md-4">
+                            <label for="see-response">See Response</label>
+                                <select  class="form-control" id="see-response" aria-label="Default select example">
+                                    <option value="1" selected >true</option>
+                                    <option value="2">false</option>
+                                </select>
+                            </div>
+                            <!-- Payment Type input-->   
+                            <div class="col-md-4">
+                            <label for="payment_type_input">Payment Type</label>
+                                <select  class="form-control" id="payment_type_input" aria-label="Default select example">
+                                    <option  selected >Credit</option>
+                                    <option >Debit</option>
+                                </select>
+                            </div>
+                     
+                </div>
+                
+            </div>`
+            linetip=`<!-- ID input-->
+            <div class="form-group">
+            <div class="row" >
+                <div class="col-md-4">
+                <label for="option-token">TOKEN:</label>
+                <select  class="form-control" id="option-token" aria-label="Default select example" onchange="changeTokenForm()">
+                <option value="1">true</option>
+                <option value="2" selected>false</option>
+                </select>
+                </div>
+                <!-- ID input-->
+                <div class="col-md-4" id="token-col1">
+                    <label for="token-value">Token VALUE:</label>
+                    <input type="text" id="token-value"  "name="value" class="form-control" >
+                </div> 
+                <!-- ID input-->
+                <div class="col-md-4" id="token-col2">
+                    <label for="token_expire">Expire:</label>
+                    <input type="text" id="token-expire"  "name="value" class="form-control" >
+                </div> 
+            </div>
+            </div>`
+            changeForm.innerHTML=line
+            changeFormTip.innerHTML=linetip
+            TokenCol1=document.querySelector('#token-col1')
+            TokenCol2=document.querySelector('#token-col2')
+            TokenCol1.style.display="none";
+            TokenCol2.style.display="none";
         }
         function Void(){
             events.style.display="none"
@@ -1339,7 +1476,7 @@ initializeGetData();
             line=`   <!--  option -->
             <div class="form-group">
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <label for="option-input">Option</label>
                         <select name="CLERK OPTION" id="option-input" class="form-control" aria-label="Default select example" onchange="OurFormChanged()">
                             <option selected> None</option>
@@ -1347,7 +1484,7 @@ initializeGetData();
 
                     </div>
                     <!-- REFNUM input-->
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <label for="refnum-input">ref_num</label>
                                 <input type="text" id="refnum-input" name="value" class="form-control" placeholder="ref_num">
                             </div>
@@ -1357,19 +1494,24 @@ initializeGetData();
             <div class="form-group">
                 <div class="row">
                         <!-- See Response input-->   
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                             <label for="see-response">See Response</label>
                                 <select  class="form-control" id="see-response" aria-label="Default select example">
                                     <option value="1" selected >true</option>
                                     <option value="2">false</option>
                                 </select>
                             </div>
+                            <div class="col-md-4" id="host">
+                            <label for="host_approval_code">Host Approval Code</label>
+                            <input type="text" id="host_approval_code_input" class="form-control"  placeholder="host_approval_code">
+                        </div> 
                 </div>
             </div>`
             changeForm.innerHTML=line
             changeFormTip.innerHTML=''
         }
         function forceSale(){
+            events.style.display="block"
             enableSuspendEventsInput.value='false'
             dropdownMenuButton.innerHTML='force_sale'
             line=`    <!--  option -->
@@ -1479,6 +1621,7 @@ initializeGetData();
 
         }
         function transaction_adjust(){
+            events.style.display="block"
             enableSuspendEventsInput.value='false'
             dropdownMenuButton.innerHTML='transaction_adjust'
             line=`   <!--  option -->
@@ -1534,7 +1677,16 @@ initializeGetData();
                            
                 </div>
             </div>
-            
+            <div class="form-group">
+            <div class="row">
+
+            <div class="col-md-4" id="host">
+            <label for="host_approval_code">Host Approval Code</label>
+            <input type="text" id="host_approval_code_input" class="form-control" placeholder="host_approval_code">
+        </div> 
+        </div>
+        </div>
+
         </div>
             `
             changeForm.innerHTML=line
@@ -1562,6 +1714,7 @@ initializeGetData();
             TipCol.style.display="none";
         }
         function tip_adjustment(){
+            events.style.display="block"
             enableSuspendEventsInput.value='false'
             dropdownMenuButton.innerHTML='tip_adjustment'
             line=`   <!--  option -->
@@ -1610,7 +1763,10 @@ initializeGetData();
                                     <option value="2">false</option>
                                 </select>
                             </div>
-                            
+                            <div class="col-md-4" id="host">
+                            <label for="host_approval_code">Host Approval Code</label>
+                            <input type="text" id="host_approval_code_input" class="form-control" placeholder="host_approval_code">
+                        </div> 
                            
                 </div>
             </div>
@@ -1638,9 +1794,9 @@ initializeGetData();
     function getdatafromhistory(i){
         msgInput1.value=historydata[i].url
         dropdownMenuButton.innerHTML=historydata[i].type;
-        arrayOfgetdata=[getReqSRFS,getReqSRFS,getReqSRFS,getReqVoid,getReqpreauthcomp,getReqpreauth,getReqpreauthcomp,getReqTip, getReqBalance]
-        arrayOfFunction=[forceSale,sale,refund,Void,preauth_completion,preauth,transaction_adjust,tip_adjustment,balance_inquiry]
-        arrayOfString=['force_sale','sale','refund','Void','preauth_completion','preauth','transaction_adjust','tip_adjustment','balance_inquiry']
+        arrayOfgetdata=[getReqSRFS,getReqSRFS,getReqSRFS,getReqVoid,getReqpreauthcomp,getReqpreauth,getReqpreauthcomp,getReqTip, getReqBalance,getReqSRFS]
+        arrayOfFunction=[forceSale,sale,refund,Void,preauth_completion,preauth,transaction_adjust,tip_adjustment,balance_inquiry,auth]
+        arrayOfString=['force_sale','sale','refund','Void','preauth_completion','preauth','transaction_adjust','tip_adjustment','balance_inquiry','auth_only']
         arrayOfFunction[arrayOfString.indexOf(dropdownMenuButton.innerHTML)]();
         arrayOfgetdata[arrayOfString.indexOf(dropdownMenuButton.innerHTML)](i);
     }
@@ -1653,8 +1809,12 @@ initializeGetData();
         seeResponse=document.querySelector('#see-response');
         PasswordInput=document.querySelector('#password-input');
         optionInput=document.querySelector('#option-input');
+        hostApprovalCodeInput=document.querySelector("#host_approval_code_input")
         refnumInput.value=getdata[i][4]
         seeResponse.value=getdata[i][3]
+        if (getdata[i][11]!=null){
+            hostApprovalCodeInput.value=getdata[i][11];
+        }
     }
     function getReqBalance(i){ 
         seeResponse=document.querySelector('#see-response');
@@ -1683,16 +1843,18 @@ initializeGetData();
         seeResponse=document.querySelector('#see-response');
         tipValue=document.querySelector('#tip-value');
         tipOption=document.querySelector('#option-tip');
+        hostApprovalCodeInput=document.querySelector("#host_approval_code_input")
         refnumInput.value=getdata[i][4]
         decimal_shiftInput.value=getdata[i][1]
         currencyInput.value=getdata[i][2]
         seeResponse.value=getdata[i][3]
         tipValue.value=getdata[i][6]
+        if (getdata[i][11]!=null){
+            hostApprovalCodeInput.value=getdata[i][11];
+        }
     }
     //get the sale , refund , force-sale data 
     function fixehostdata(i){
-        console.log(i)
-        console.log(getdata[i][11])
         if (getdata[i][11]!=null){
             console.log(i)
             enableSuspendEventsInput.value=true;
@@ -1766,6 +1928,7 @@ initializeGetData();
         seeResponse=document.querySelector('#see-response');
         tipValue=document.querySelector('#tip-value');
         tipOption=document.querySelector('#option-tip');
+        hostApprovalCodeInput=document.querySelector("#host_approval_code_input")
         valueInput.value=getdata[i][0]
         decimal_shiftInput.value=getdata[i][1]
         currencyInput.value=getdata[i][2]
@@ -1777,6 +1940,9 @@ initializeGetData();
                 changeTipForm();
                 tipValue.value=getdata[i][6]
             }
+        }
+        if (getdata[i][11]!=null){
+            hostApprovalCodeInput.value=getdata[i][11];
         }
         optionInput.value='None'
         OurFormChanged()
