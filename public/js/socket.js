@@ -297,8 +297,8 @@ initializeGetData();
         tokenExp=document.querySelector('#token-expire');
         paymentTypeInput=document.querySelector("#payment_type_input")
         //make complexité low 
-        arrayOfFunction=[stringdataSFSRin,stringdataSFSRin,stringdataSFSRin,stringdataPREAUTHinAD,stringdataPREAUTHinAD]
-        arrayOfString=['force_sale','sale','refund','preauth_completion','preauth']
+        arrayOfFunction=[stringdataSFSRin,stringdataSFSRin,stringdataSFSRin,stringdataPREAUTHinAD]
+        arrayOfString=['force_sale','sale','refund','preauth']
         stringdata=arrayOfFunction[arrayOfString.indexOf(dropdownMenuButton.innerHTML)]();
         return stringdata
     }
@@ -363,21 +363,21 @@ initializeGetData();
         Objecttransaction_amount[currency]=currencyInput.value;
         amountObject[transaction_amount]=Objecttransaction_amount;
         //-----
-        if (dropdownMenuButton.innerHTML=='transaction_adjust' && tipOption.value==1 ){
-            ObjectTip[value]=tipValue.value;
-            ObjectTip[currency]=currencyInput.value;
-            ObjectTip[decimal_shift]=decimal_shiftInput.value;
-            amountObject[tip]=ObjectTip;
-            getdata.push([valueInput.value,decimal_shiftInput.value,currencyInput.value,seeResponse.value,refnumInput.value,null,tipValue.value,invoiceInput.value,null,null,null])
+        if (tokenOption.value==1){     
+            ObjectToken[value]=tokenValue.value;
+            ObjectToken[exp_date]=tokenExp.value;
+            TheRessourceObject[token]=ObjectToken;
+            getdata.push([valueInput.value,decimal_shiftInput.value,currencyInput.value,seeResponse.value,refnumInput.value,null,null,invoiceInput.value,paymentTypeInput.value,tokenValue.value,tokenExp.value])
         }
         else{
-            getdata.push([valueInput.value,decimal_shiftInput.value,currencyInput.value,seeResponse.value,refnumInput.value,null,null,invoiceInput.value,null,null,null])
+            getdata.push([valueInput.value,decimal_shiftInput.value,currencyInput.value,seeResponse.value,refnumInput.value,null,null,invoiceInput.value,paymentTypeInput.value,null,null])
         }
         TheHeaderObject[endpoint]=`/NAR/v1/transaction`;
         TheHeaderObject[flow_id]="577125";
         TheRessourceObject[txn_type]=dropdownMenuButton.innerHTML
         TheRessourceObject[enable_suspend_events]=enableSuspendEventsInput.value=='true'
         TheRessourceObject[print_receipt]=printReceiptInput.value=='true'
+        TheRessourceObject[payment_type]=paymentTypeInput.value;
         TheRessourceObject[amount]=amountObject
         TheRessourceObject[ref_num]=refnumInput.value
         TheRessourceObject[invoice]=invoiceInput.value
@@ -405,8 +405,8 @@ initializeGetData();
                     tokenExp=document.querySelector('#token-expire');
                     paymentTypeInput=document.querySelector("#payment_type_input")
                     //make complexité low 
-                    arrayOfFunction=[stringdataSFSRid,stringdataSFSRid,stringdataSFSRid,stringdataPREAUTHidAD,stringdataPREAUTHidAD,stringdataPREAUTHidAD,stringdataTIPid]
-                    arrayOfString=['force_sale','sale','refund','preauth_completion','preauth','transaction_adjust','tip_adjustment']
+                    arrayOfFunction=[stringdataSFSRid,stringdataSFSRid,stringdataSFSRid,stringdataPREAUTHidAD]
+                    arrayOfString=['force_sale','sale','refund','preauth']
                     stringdata=arrayOfFunction[arrayOfString.indexOf(dropdownMenuButton.innerHTML)]();
     return stringdata
     }
@@ -472,15 +472,14 @@ initializeGetData();
                     Objecttransaction_amount[currency]=currencyInput.value;
                     amountObject[transaction_amount]=Objecttransaction_amount;
                     //-----
-                    if (dropdownMenuButton.innerHTML=='transaction_adjust' && tipOption.value==1 ){
-                                ObjectTip[value]=tipValue.value;
-                                ObjectTip[currency]=currencyInput.value;
-                                ObjectTip[decimal_shift]=decimal_shiftInput.value;
-                                amountObject[tip]=ObjectTip;
-                                getdata.push([valueInput.value,decimal_shiftInput.value,currencyInput.value,seeResponse.value,refnumInput.value,IdInput.value,tipValue.value,null,null,null])
-                            }
+                    if (tokenOption.value==1){     
+                        ObjectToken[value]=tokenValue.value;
+                        ObjectToken[exp_date]=tokenExp.value;
+                        TheRessourceObject[token]=ObjectToken;
+                        getdata.push([valueInput.value,decimal_shiftInput.value,currencyInput.value,seeResponse.value,refnumInput.value,IdInput.value,null,null,paymentTypeInput.value,tokenValue.value,tokenExp.value])
+                    }
                     else{
-                                getdata.push([valueInput.value,decimal_shiftInput.value,currencyInput.value,seeResponse.value,refnumInput.value,IdInput.value,null,null,null,null,null])
+                        getdata.push([valueInput.value,decimal_shiftInput.value,currencyInput.value,seeResponse.value,refnumInput.value,IdInput.value,null,null,paymentTypeInput.value,null,null])
                     }
                     TheHeaderObject[endpoint]=`/NAR/v1/transaction`;
                     TheHeaderObject[flow_id]="577125";
@@ -488,6 +487,7 @@ initializeGetData();
                     TheRessourceObject[enable_suspend_events]=enableSuspendEventsInput.value=='true'
                     TheRessourceObject[print_receipt]=printReceiptInput.value=='true'
                     TheRessourceObject[preformatted_receipt]=preformatted_receipt_input.value=='true'
+                    TheRessourceObject[payment_type]=paymentTypeInput.value;
                     TheRessourceObject[amount]=amountObject
                     TheRessourceObject[clerk_id]=IdInput.value
                     TheRessourceObject[ref_num]=refnumInput.value
@@ -497,26 +497,7 @@ initializeGetData();
                     localStorage.setItem('getdata', JSON.stringify(getdata));
                     return myFinalObj
                 }
-                function stringdataTIPid(){
-                    TheHeaderObject[endpoint]=`/NAR/v1/transaction`;
-                    TheHeaderObject[flow_id]="577125";
-                    TheRessourceObject[txn_type]='tip_adjustment';
-                    TheRessourceObject[enable_suspend_events]=enableSuspendEventsInput.value=='true'
-                    TheRessourceObject[print_receipt]=printReceiptInput.value=='true'
-                    TheRessourceObject[preformatted_receipt]=preformatted_receipt_input.value=='true'
-                    ObjectTip[value]=tipValue.value;
-                    ObjectTip[currency]=currencyInput.value;
-                    ObjectTip[decimal_shift]=decimal_shiftInput.value;
-                    amountObject[tip]=ObjectTip;
-                    TheRessourceObject[amount]=amountObject
-                    TheRessourceObject[clerk_id]=IdInput.value
-                    myObject[header]=TheHeaderObject;
-                    myObject[resource]=TheRessourceObject  
-                    myFinalObj[request] = myObject;
-                    getdata.push([null,decimal_shiftInput.value,currencyInput.value,seeResponse.value,refnumInput.value,IdInput.value,tipValue.value,null,null])
-                    localStorage.setItem('getdata', JSON.stringify(getdata));
-                    return myFinalObj
-                }
+
     //-----------------------------------------------------------------------Create String Data off---------------------------------------------------------------------------
     function createstringdataoff(){
                     valueInput=document.querySelector('#value-input');
@@ -531,7 +512,7 @@ initializeGetData();
                     tokenExp=document.querySelector('#token-expire');
                     paymentTypeInput=document.querySelector("#payment_type_input")
                     //make complexité low 
-                    arrayOfFunction=[stringdataSFSR,stringdataSFSR,stringdataSFSR,stringdataVOID,stringdataPREAUTHad,stringdataPREAUTHad,stringdataPREAUTHad,stringdataTIP,stringdataBALA]
+                    arrayOfFunction=[stringdataSFSR,stringdataSFSR,stringdataSFSR,stringdataVOID,stringdataPREAUTHad,stringdataPREAUTH,stringdataPREAUTHad,stringdataTIP,stringdataBALA]
                     arrayOfString=['force_sale','sale','refund','Void','preauth_completion','preauth','transaction_adjust','tip_adjustment','balance_inquiry']
                     stringdata=arrayOfFunction[arrayOfString.indexOf(dropdownMenuButton.innerHTML)]();
     return stringdata
@@ -620,6 +601,39 @@ initializeGetData();
                             myFinalObj[request] = myObject;
                             return myFinalObj
 
+                        }
+                        function stringdataPREAUTH(){
+                            fixedata()
+                            //stringdata=`{\"request\":{\"header\":{\"endpoint\":\"/NAR/v1/transaction\",\"flow_id\":\"577125\"},\"resource\":{\"txn_type\":\"preauth_completion\",\"ref_num\":\"${refnumInput.value}\"\"amount\":{\"transaction_amount\":{\"value\":${valueInput.value},\"decimal_shift\":${decimal_shiftInput.value},\"currency\":${currencyInput.value}}},\"print_receipt\":true}}}`
+                            //TheRessourceObject=new Object
+                            Objecttransaction_amount[value]=valueInput.value;
+                            Objecttransaction_amount[decimal_shift]=decimal_shiftInput.value;
+                            Objecttransaction_amount[currency]=currencyInput.value; 
+                            amountObject[transaction_amount]=Objecttransaction_amount;
+                            //-----
+                            if (tokenOption.value==1){     
+                                ObjectToken[value]=tokenValue.value;
+                                ObjectToken[exp_date]=tokenExp.value;
+                                TheRessourceObject[token]=ObjectToken;
+                                getdata.push([valueInput.value,decimal_shiftInput.value,currencyInput.value,seeResponse.value,refnumInput.value,null,null,null,paymentTypeInput.value,tokenValue.value,tokenExp.value])
+                            }
+                            else{
+                                getdata.push([valueInput.value,decimal_shiftInput.value,currencyInput.value,seeResponse.value,refnumInput.value,null,null,null,paymentTypeInput.value,null,null])
+                            }
+                            TheHeaderObject[endpoint]=`/NAR/v1/transaction`;
+                            TheHeaderObject[flow_id]="577125";
+                            TheRessourceObject[txn_type]=dropdownMenuButton.innerHTML
+                            TheRessourceObject[enable_suspend_events]=enableSuspendEventsInput.value=='true'
+                            TheRessourceObject[print_receipt]=printReceiptInput.value=='true'
+                            TheRessourceObject[preformatted_receipt]=preformatted_receipt_input.value=='true'
+                            TheRessourceObject[payment_type]=paymentTypeInput.value;
+                            TheRessourceObject[amount]=amountObject
+                            TheRessourceObject[ref_num]=refnumInput.value
+                            myObject[header]=TheHeaderObject;
+                            myObject[resource]=TheRessourceObject  
+                            myFinalObj[request] = myObject;
+                            localStorage.setItem('getdata', JSON.stringify(getdata));
+                            return myFinalObj
                         }
                         function stringdataPREAUTHad(){
                             fixedata()
@@ -718,8 +732,9 @@ initializeGetData();
     } 
     // send cnx!
     // we have 2 choise we clear bush with settelment or we send normal request ! 
+    var rowp='';
     function sendSetTok(){
-        var rowp='';
+        fixedata()
         var modal = document.getElementById("Modal-settlement-token");
         var print_receipt_set=document.getElementById('print-recipt-set');
         if (isOpen(socket) ) {
@@ -732,20 +747,19 @@ initializeGetData();
         myFinalObj[request] = myObject;
         //getdata.push([null,null,null,seeResponse.value,refnumInput.value,null,null])
         socket.send(JSON.stringify(myFinalObj))
-        socket.addEventListener("message", data=>{
-            data.preventDefault();
-            var row =`<tr class="UpdateRow">
-                <td>${data.data}</td>
-                </tr>`
-                if (row!=rowp){
-                    RecentTable.innerHTML+=row;
-                    rowp=row;
-                }
-        })
+        socket.addEventListener("message", function (event) {
+            console.log("hello")
+            console.log('Message received from server',event.data);
+            rep=event.data;
+            RecentTable.innerHTML=rep;
+        });
         } 
     modal.style.display = "none";
     }
+    var rowpres=''
     function reset(){
+        console.log("reset")
+        fixedata()
         dropdownMenuButton.innerHTML='reset'
         if (isOpen(socket) ) {
             TheHeaderObject[endpoint]=`/NAR/v1/device`;
@@ -756,50 +770,42 @@ initializeGetData();
             myFinalObj[request] = myObject;
             //getdata.push([null,null,null,seeResponse.value,refnumInput.value,null,null])
             socket.send(JSON.stringify(myFinalObj))
-            socket.addEventListener("message", data=>{
-                data.preventDefault();
-                var row =`<tr class="UpdateRow">
-                    <td>${data.data}</td>
-                    </tr>`
-                console.log("rowp",rowp)
-                console.log("row",row)
-                    if (row!=rowp){
-                        RecentTable.innerHTML+=row;
-                        rowp=row;
-                    }
-            }
-            )
+            socket.addEventListener("message", function (event) {
+                console.log("hello")
+                console.log('Message received from server',event.data);
+                rep=event.data;
+                RecentTable.innerHTML=rep;
+            });
             } 
     }
-
+    var rowpter=''
     function terminal_info(){
+        console.log("terminal info")
+        fixedata()
         dropdownMenuButton.innerHTML='terminal_info'
         if (isOpen(socket) ) {
             TheHeaderObject[endpoint]=`/NAR/v1/device`;
             TheHeaderObject[flow_id]="577125";
             TheRessourceObject[type]='terminal_info';
             myObject[header]=TheHeaderObject;
-            myObject[resource]=TheRessourceObject  
+            myObject[resource]=TheRessourceObject 
+            myFinalObj=new Object; 
             myFinalObj[request] = myObject;
             //getdata.push([null,null,null,seeResponse.value,refnumInput.value,null,null])
             socket.send(JSON.stringify(myFinalObj))
-            socket.addEventListener("message", data=>{
-                console.log("a zeby ? ")
-                data.preventDefault();
-                var row =`<tr class="UpdateRow">
-                    <td>${data.data}</td>
-                    </tr>`
-                console.log("rowp",rowp)
-                console.log("row",row)
-                    if (row!=rowp){
-                        RecentTable.innerHTML+=row;
-                        rowp=row;
-                    }
-            }
-            )
+            socket.addEventListener("message", function (event) {
+                console.log("hello")
+                console.log('Message received from server',event.data);
+                rep=event.data;
+                RecentTable.innerHTML=rep;
+            });
             } 
     }
+    var rowpRec=''
+
     function recallLast(){
+        console.log("recall last ")
+        fixedata()
         dropdownMenuButton.innerHTML='recall_last'
         if (isOpen(socket) ) {
             TheHeaderObject[endpoint]=`/NAR/v1/transaction`;
@@ -808,25 +814,17 @@ initializeGetData();
             myObject[header]=TheHeaderObject;
             myObject[resource]=TheRessourceObject  
             myFinalObj[request] = myObject;
-            //getdata.push([null,null,null,seeResponse.value,refnumInput.value,null,null])
             socket.send(JSON.stringify(myFinalObj))
-            socket.addEventListener("message", data=>{
-                data.preventDefault();
-                var row =`<tr class="UpdateRow">
-                    <td>${data.data}</td>
-                    </tr>`
-                console.log("rowp",rowp)
-                console.log("row",row)
-                    if (row!=rowp){
-                        RecentTable.innerHTML+=row;
-                        rowp=row;
-                    }
-            }
-            )
+            socket.addEventListener("message", function (event) {
+                console.log("hello")
+                console.log('Message received from server',event.data);
+                rep=event.data;
+                RecentTable.innerHTML=rep;
+            });
+ 
             } 
-    
     }
-    var rowp='';
+    var rowpPre='';
     function sendPre(){
         var modal = document.getElementById("Modal-preformatted");
         var name=document.getElementById('name-input');
@@ -840,18 +838,12 @@ initializeGetData();
         myFinalObj[request] = myObject;
         //getdata.push([null,null,null,seeResponse.value,refnumInput.value,null,null])
         socket.send(JSON.stringify(myFinalObj))
-        socket.addEventListener("message", data =>{
-            data.preventDefault();
-            var row =`<tr class="UpdateRow">
-                <td>${data.data}</td>
-                </tr>`
-                console.log("row",row)
-                console.log("rowp",rowp)
-                if (row!=rowp){
-                    RecentTable.innerHTML+=row;
-                    rowp=row;
-                }
-        })
+        socket.addEventListener("message", function (event) {
+            console.log("hello")
+            console.log('Message received from server',event.data);
+            rep=event.data;
+            RecentTable.innerHTML=rep;
+        });
         } 
 
     modal.style.display = "none";
@@ -1090,8 +1082,6 @@ initializeGetData();
                     <div class="col-md-4">
                     <label for="option-input">Option:</label>
                         <select name="CLERK OPTION" id="option-input" class="form-control" aria-label="Default select example" onchange="OurFormChanged()">
-                            <option>CLERK</option>
-                            <option>INVOICE</option>
                             <option selected >None</option>
                         </select>
                     </div>
@@ -1203,12 +1193,50 @@ initializeGetData();
                            
                 </div>
             </div>
+            <div class="form-group">
+                <div class="row">
+                <!-- Payment Type input-->   
+                <div class="col-md-4">
+                <label for="payment_type_input">Payment Type</label>
+                    <select  class="form-control" id="payment_type_input" aria-label="Default select example">
+                        <option  selected >Credit</option>
+                        <option >Debit</option>
+                    </select>
+                </div>
+                </div>
+            </div>
             
         </div>
             `
+            linetip=`<!-- ID input-->
+            <div class="form-group">
+    
+            <div class="row" >
+                <div class="col-md-4">
+                <label for="option-token">TOKEN:</label>
+                <select  class="form-control" id="option-token" aria-label="Default select example" onchange="changeTokenForm()">
+                <option value="1">true</option>
+                <option value="2" selected>false</option>
+                </select>
+                </div>
+                <!-- ID input-->
+                <div class="col-md-4" id="token-col1">
+                    <label for="token-value">Token VALUE:</label>
+                    <input type="text" id="token-value"  "name="value" class="form-control" >
+                </div> 
+                <!-- ID input-->
+                <div class="col-md-4" id="token-col2">
+                    <label for="token_expire">Expire:</label>
+                    <input type="text" id="token-expire"  "name="value" class="form-control" >
+                </div> 
+            </div>
+            </div>`
+            changeFormTip.innerHTML=linetip
             changeForm.innerHTML=line
-            changeFormTip.innerHTML=''
-
+            TokenCol1=document.querySelector('#token-col1')
+            TokenCol2=document.querySelector('#token-col2')
+            TokenCol1.style.display="none";
+            TokenCol2.style.display="none";
         }
         function refund(){
             enableSuspendEventsInput.value='false'
@@ -1459,7 +1487,6 @@ initializeGetData();
                     <div class="col-md-4">
                     <label for="option-input">Option</label>
                         <select name="CLERK OPTION" id="option-input" class="form-control" aria-label="Default select example" onchange="OurFormChanged()">
-                            <option>CLERK</option>
                             <option selected >None</option>
                         </select>
                     </div>
@@ -1543,7 +1570,6 @@ initializeGetData();
                     <div class="col-md-4">
                         <label for="option-input">Option</label>
                         <select name="CLERK OPTION" id="option-input" class="form-control" aria-label="Default select example" onchange="OurFormChanged()">
-                            <option>CLERK</option>
                             <option selected >None</option>
                         </select>
                     </div>
@@ -1605,8 +1631,6 @@ initializeGetData();
                 
             </div>`
             changeFormTip.innerHTML=linetip
-
-
         }
        
 //--------------------------------------------------Get Data function -------------------------------------------------------------------------------
@@ -1614,7 +1638,7 @@ initializeGetData();
     function getdatafromhistory(i){
         msgInput1.value=historydata[i].url
         dropdownMenuButton.innerHTML=historydata[i].type;
-        arrayOfgetdata=[getReqSRFS,getReqSRFS,getReqSRFS,getReqVoid,getReqpreauth,getReqpreauth,getReqpreauth,getReqTip, getReqBalance]
+        arrayOfgetdata=[getReqSRFS,getReqSRFS,getReqSRFS,getReqVoid,getReqpreauthcomp,getReqpreauth,getReqpreauthcomp,getReqTip, getReqBalance]
         arrayOfFunction=[forceSale,sale,refund,Void,preauth_completion,preauth,transaction_adjust,tip_adjustment,balance_inquiry]
         arrayOfString=['force_sale','sale','refund','Void','preauth_completion','preauth','transaction_adjust','tip_adjustment','balance_inquiry']
         arrayOfFunction[arrayOfString.indexOf(dropdownMenuButton.innerHTML)]();
@@ -1733,7 +1757,7 @@ initializeGetData();
         }
 
     }
-    function getReqpreauth(i){
+    function getReqpreauthcomp(i){
         optionInput=document.querySelector('#option-input');
         valueInput=document.querySelector('#value-input');
         decimal_shiftInput=document.querySelector('#decimal_shift-input');
@@ -1754,8 +1778,38 @@ initializeGetData();
                 tipValue.value=getdata[i][6]
             }
         }
-        fixeoptiondata(i)
+        optionInput.value='None'
+        OurFormChanged()
+        
             
+    }
+    function getReqpreauth(i){
+        optionInput=document.querySelector('#option-input');
+        valueInput=document.querySelector('#value-input');
+        decimal_shiftInput=document.querySelector('#decimal_shift-input');
+        currencyInput=document.querySelector('#currency-input');
+        refnumInput=document.querySelector('#refnum-input');
+        seeResponse=document.querySelector('#see-response');
+        tipValue=document.querySelector('#tip-value');
+        tipOption=document.querySelector('#option-tip');
+        tokenOption=document.querySelector('#option-token');
+        tokenValue=document.querySelector('#token-value');
+        tokenExp=document.querySelector('#token-expire');
+        paymentTypeInput=document.querySelector("#payment_type_input")
+        valueInput.value=getdata[i][0]
+        decimal_shiftInput.value=getdata[i][1]
+        currencyInput.value=getdata[i][2]
+        seeResponse.value=getdata[i][3]
+        refnumInput.value=getdata[i][4]
+        paymentTypeInput.value=getdata[i][8]
+        fixeoptiondata(i)
+        if(getdata[i][9]!=null && getdata[i][10]!=null){
+            tokenOption.value=1;
+            changeTokenForm();
+            tokenValue.value=getdata[i][9]
+            console.log(getdata[i][10])
+            tokenExp.value=getdata[i][10]
+        }    
     }
    
 //-------------------------------------------------------------------------------CHANGE FORM WITH OUR OPTION! --------------------------------------------------------------
@@ -2136,12 +2190,12 @@ function modalDevice(){
             myFinalObj = new Object;
             myObject=new Object;
             request=skeleton.request;
-           //--HEADER OBJECT !
+            //--HEADER OBJECT !
             TheHeaderObject=new Object;
             endpoint=skeleton.endpoint
             flow_id=skeleton.flow_id;
             header=skeleton.header;
-           //---Ressource Object!
+            //---Ressource Object!
             TheRessourceObject=new Object;
             resource=skeleton.resource
             txn_type=skeleton.txn_type;
@@ -2150,15 +2204,21 @@ function modalDevice(){
             amount=skeleton.amount
             ref_num=skeleton.ref_num
             print_receipt=skeleton.print_receipt
-           //--Amount Object ! 
+            preformatted_receipt_name=skeleton.preformatted_receipt_name
+            type=skeleton.type
+            //--Amount Object ! 
             amountObject=new Object
             transaction_amount=skeleton.transaction_amount
-           //-----Object transaction_amount:
+            //-----Object transaction_amount:
             Objecttransaction_amount=new Object
             value=skeleton.value
             decimal_shift=skeleton.decimal_shift;
             currency=skeleton.currency;
+            invoice=skeleton.invoice;
+            // tip object:
+            ObjectTip=new Object;
             tip=skeleton.tip;
+            
        }
 
 
