@@ -933,8 +933,7 @@ initializeGetData();
    
 //---------------------------------------------------------------------------------------Change Form connection ! -----------------------------
         function balance_inquiry(){
-            optionInput.value='None'
-            OurFormChanged()
+
             events.style.display="block"
             enableSuspendEventsInput.value='false'
             dropdownMenuButton.innerHTML='balance_inquiry' 
@@ -999,11 +998,12 @@ initializeGetData();
             TokenCol2=document.querySelector('#token-col2')
             TokenCol1.style.display="none";
             TokenCol2.style.display="none";
+            optionInput.value='None'
+            OurFormChanged()
 
         }
         function sale(){
-            optionInput.value='None'
-            OurFormChanged()
+
             events.style.display="block"
             enableSuspendEventsInput.value='false'
             dropdownMenuButton.innerHTML='sale'
@@ -1112,10 +1112,11 @@ initializeGetData();
             TokenCol2=document.querySelector('#token-col2')
             TokenCol1.style.display="none";
             TokenCol2.style.display="none";
-        }
-        function preauth_completion(){
             optionInput.value='None'
             OurFormChanged()
+        }
+        function preauth_completion(){
+
             events.style.display="block"
             enableSuspendEventsInput.value='false'
             dropdownMenuButton.innerHTML='preauth_completion'
@@ -1186,11 +1187,11 @@ initializeGetData();
             `
             changeForm.innerHTML=line
             changeFormTip.innerHTML=''
+            optionInput.value='None'
+            OurFormChanged()
 
         }
         function preauth(){
-            optionInput.value='None'
-            OurFormChanged()
             events.style.display="block"
             enableSuspendEventsInput.value='false'
             dropdownMenuButton.innerHTML='preauth'
@@ -1292,10 +1293,11 @@ initializeGetData();
             TokenCol2=document.querySelector('#token-col2')
             TokenCol1.style.display="none";
             TokenCol2.style.display="none";
-        }
-        function refund(){
             optionInput.value='None'
             OurFormChanged()
+        }
+        function refund(){
+
             events.style.display="block"
             enableSuspendEventsInput.value='false'
             dropdownMenuButton.innerHTML='refund'
@@ -1386,10 +1388,10 @@ initializeGetData();
             TokenCol2=document.querySelector('#token-col2')
             TokenCol1.style.display="none";
             TokenCol2.style.display="none";
-        }
-        function auth(){
             optionInput.value='None'
             OurFormChanged()
+        }
+        function auth(){
             events.style.display="block"
             enableSuspendEventsInput.value='false'
             dropdownMenuButton.innerHTML='auth_only'
@@ -1480,10 +1482,10 @@ initializeGetData();
             TokenCol2=document.querySelector('#token-col2')
             TokenCol1.style.display="none";
             TokenCol2.style.display="none";
-        }
-        function Void(){
             optionInput.value='None'
             OurFormChanged()
+        }
+        function Void(){
             events.style.display="none"
             enableSuspendEventsInput.value='false'
             dropdownMenuButton.innerHTML='Void'
@@ -1523,10 +1525,10 @@ initializeGetData();
             </div>`
             changeForm.innerHTML=line
             changeFormTip.innerHTML=''
-        }
-        function forceSale(){
             optionInput.value='None'
             OurFormChanged()
+        }
+        function forceSale(){
             events.style.display="block"
             enableSuspendEventsInput.value='false'
             dropdownMenuButton.innerHTML='force_sale'
@@ -1634,11 +1636,12 @@ initializeGetData();
             TokenCol2=document.querySelector('#token-col2')
             TokenCol1.style.display="none";
             TokenCol2.style.display="none";
+            optionInput.value='None'
+            OurFormChanged()
 
         }
         function transaction_adjust(){
-            optionInput.value='None'
-            OurFormChanged()
+
             events.style.display="block"
             enableSuspendEventsInput.value='false'
             dropdownMenuButton.innerHTML='transaction_adjust'
@@ -1730,10 +1733,10 @@ initializeGetData();
             changeForm.innerHTML=line
             TipCol=document.querySelector('#tip-col')
             TipCol.style.display="none";
-        }
-        function tip_adjustment(){
             optionInput.value='None'
             OurFormChanged()
+        }
+        function tip_adjustment(){
             events.style.display="block"
             enableSuspendEventsInput.value='false'
             dropdownMenuButton.innerHTML='tip_adjustment'
@@ -1807,6 +1810,8 @@ initializeGetData();
                 
             </div>`
             changeFormTip.innerHTML=linetip
+            optionInput.value='None'
+            OurFormChanged()
         }
        
 //--------------------------------------------------Get Data function -------------------------------------------------------------------------------
