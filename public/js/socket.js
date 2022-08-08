@@ -933,6 +933,8 @@ initializeGetData();
    
 //---------------------------------------------------------------------------------------Change Form connection ! -----------------------------
         function balance_inquiry(){
+            optionInput.value='None'
+            OurFormChanged()
             events.style.display="block"
             enableSuspendEventsInput.value='false'
             dropdownMenuButton.innerHTML='balance_inquiry' 
@@ -1000,6 +1002,8 @@ initializeGetData();
 
         }
         function sale(){
+            optionInput.value='None'
+            OurFormChanged()
             events.style.display="block"
             enableSuspendEventsInput.value='false'
             dropdownMenuButton.innerHTML='sale'
@@ -1110,6 +1114,8 @@ initializeGetData();
             TokenCol2.style.display="none";
         }
         function preauth_completion(){
+            optionInput.value='None'
+            OurFormChanged()
             events.style.display="block"
             enableSuspendEventsInput.value='false'
             dropdownMenuButton.innerHTML='preauth_completion'
@@ -1183,6 +1189,8 @@ initializeGetData();
 
         }
         function preauth(){
+            optionInput.value='None'
+            OurFormChanged()
             events.style.display="block"
             enableSuspendEventsInput.value='false'
             dropdownMenuButton.innerHTML='preauth'
@@ -1286,6 +1294,8 @@ initializeGetData();
             TokenCol2.style.display="none";
         }
         function refund(){
+            optionInput.value='None'
+            OurFormChanged()
             events.style.display="block"
             enableSuspendEventsInput.value='false'
             dropdownMenuButton.innerHTML='refund'
@@ -1378,6 +1388,8 @@ initializeGetData();
             TokenCol2.style.display="none";
         }
         function auth(){
+            optionInput.value='None'
+            OurFormChanged()
             events.style.display="block"
             enableSuspendEventsInput.value='false'
             dropdownMenuButton.innerHTML='auth_only'
@@ -1470,6 +1482,8 @@ initializeGetData();
             TokenCol2.style.display="none";
         }
         function Void(){
+            optionInput.value='None'
+            OurFormChanged()
             events.style.display="none"
             enableSuspendEventsInput.value='false'
             dropdownMenuButton.innerHTML='Void'
@@ -1511,6 +1525,8 @@ initializeGetData();
             changeFormTip.innerHTML=''
         }
         function forceSale(){
+            optionInput.value='None'
+            OurFormChanged()
             events.style.display="block"
             enableSuspendEventsInput.value='false'
             dropdownMenuButton.innerHTML='force_sale'
@@ -1621,6 +1637,8 @@ initializeGetData();
 
         }
         function transaction_adjust(){
+            optionInput.value='None'
+            OurFormChanged()
             events.style.display="block"
             enableSuspendEventsInput.value='false'
             dropdownMenuButton.innerHTML='transaction_adjust'
@@ -1714,6 +1732,8 @@ initializeGetData();
             TipCol.style.display="none";
         }
         function tip_adjustment(){
+            optionInput.value='None'
+            OurFormChanged()
             events.style.display="block"
             enableSuspendEventsInput.value='false'
             dropdownMenuButton.innerHTML='tip_adjustment'
@@ -1917,7 +1937,6 @@ initializeGetData();
             console.log(getdata[i][10])
             tokenExp.value=getdata[i][10]
         }
-
     }
     function getReqpreauthcomp(i){
         optionInput=document.querySelector('#option-input');
